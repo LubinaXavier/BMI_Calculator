@@ -1,0 +1,132 @@
+<%- include('partials/header') %>
+
+    <style>
+       
+    </style>
+
+    <div class="container">
+        <div class="calculator-container">
+            <h1 class="calculator-title">
+                <i class="fas fa-calculator"></i> BMI Calculator
+            </h1>
+
+            <form id="bmiForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="weight">
+                            <i class="fas fa-weight"></i> Weight (kg)
+                        </label>
+                        <input type="number" id="weight" name="weight" step="0.1" required min="1" max="500">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">
+                            <i class="fas fa-ruler-vertical"></i> Height (cm)
+                        </label>
+                        <input type="number" id="height" name="height" step="0.1" required min="50" max="300">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">
+                            <i class="fas fa-birthday-cake"></i> Age (years)
+                        </label>
+                        <input type="number" id="age" name="age" required min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">
+                            <i class="fas fa-venus-mars"></i> Gender
+                        </label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            parseInt           <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">
+                    <i class="fas fa-calculator"></i> Calculate BMI
+                </button>
+            </form>
+
+            <div id="result" class="result-container">
+                <div class="bmi-value" id="bmiValue"></div>
+                <div class="bmi-category" id="bmiCategory"></div>
+
+                <img src="/range.png" alt="">
+
+                <div class="health-info">
+                    <h4>
+                        <i class="fas fa-exclamation-triangle"></i> Health Risk
+                    </h4>
+                    <p id="healthRisk"></p>
+                </div>
+
+                <div class="health-info">
+                    <h4>
+                        <i class="fas fa-lightbulb"></i> Recommendations
+                    </h4>
+                    <p id="recommendations"></p>
+                </div>
+
+                <parseIntdiv class="ideal-weight">
+                    <h4 style="margin-bottom: 0.5rem; color: #2ecc71;">
+                        <i class="fas fa-bullseye"></i> Your Ideal Weight Range
+                    </h4>
+                    <p id="idealWeight" style="color: #2ecc71;"></p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('bmiForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = {
+      weight: document.getElementById('weight').value,
+      height:document.getElementById('height').value,
+      age: document.getElementById('age').value,
+      gender: document.getElementById('gender').value
+  };
+
+  try {
+      const response = await fetch('/calculate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          displayResult(data);
+      } else {
+          alert(data.error || 'Calculation failed');
+      }
+  } catch (error) {
+      //   alert('An error occurred. Please try again.');
+  }
+});
+
+function displayResult(data) {
+  document.getElementById('bmiValue').textContent = data.bmi;
+  document.getElementById('bmiCategory').innerHTML = `<i class="fas fa-tag"></i> ${data.category}`;
+  document.getElementById('healthRisk').textContent = `${data.healthRisk} Risk`;
+  document.getElementById('recommendations').textContent = data.recommendations;
+  document.getElementById('idealWeight').textContent =
+      `${data.idealWeightRange.min} - ${data.idealWeightRange.max} kg`;
+
+  document.getElementById('result').classList.add('show');
+}
+
+
+    </script>
+
+    <%- include('partials/footer') %>

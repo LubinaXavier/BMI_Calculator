@@ -1,0 +1,179 @@
+<%- include('partials/header') %>
+
+    <style>
+        .record-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.delete-btn:hover {
+  color: #c0392b;
+  transform: scale(1.1);
+}
+
+
+    </style>
+
+    <div class="container history-container">
+        <div class="history-header">
+            <h1><i class="fas fa-history"></i> Your BMI History</h1>
+            <p>Track your progress and see how your BMI has changed over time</p>
+        </div>
+
+        <% if (records && records.length> 0) { %>
+            <% records.forEach(record=> {
+                const date = new Date(record.created_at);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+                });
+
+                let badgeClass = 'badge-normal';
+                if (record.category === 'Underweight') {
+                    badgeClass = 'badge-underweight';
+                }
+                else if(record.category === 'Overweight'){
+                    badgeClass = 'badge-overweight';
+                }
+                else if (record.category === 'Obese'){
+                    badgeClass = 'badge-obese';
+                }
+                %>
+                <div class="record-card">
+                    <div class="record-header">
+                        <div>
+                            <div class="record-date">
+                                <i class="fas fa-calendar"></i>
+                                <%= formattedDate %>
+                            </div>
+                            <span class="category-badge <%= badgeClass %>">
+                                <%= record.category %>
+                            </span>
+                        </div>
+                        <div class="record-actions">
+                            <span class="record-bmi">BMI: <%= record.bmi %></span>
+                          
+                            <button 
+                              class="delete-btn"
+                              data-id="<%= record.id %>"
+                              title="Delete record">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </div>
+                          
+                    </div>
+
+                    <div class="record-details">
+                        <div class="detail-item">
+                            <i class="fas fa-weight"></i>
+                            <div>
+                                <div class="detail-label">Weight</div>
+                                <div class="detail-value">
+                                    <%= record.weight %> kg
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-ruler-vertical"></i>
+                            <div>
+                                <div class="detail-label">Height</div>
+                                <div class="detail-value">
+                                    <%= record.height %> cm
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-birthday-cake"></i>
+                            <div>
+                                <div class="detail-label">Age</div>
+                                <div class="detail-value">
+                                    <%= record.age %> years
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-venus-mars"></i>
+                            <div>
+                                <div class="detail-label">Gender</div>
+                                <div class="detail-value">
+                                    <%= record.gender %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <div class="detail-label">Health Risk</div>
+                                <div class="detail-value">
+                                    <%= record.health_risk %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% if (record.recommendations) { %>
+                        <div class="recommendations-box">
+                            <h4><i class="fas fa-lightbulb"></i> Recommendations</h4>
+                            <p>
+                                <%= record.recommendations %>
+                            </p>
+                        </div>
+                        <% } %>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <div class="no-records">
+                            <i class="fas fa-chart-line"></i>
+                            <h2>No Records Yet</h2>
+                            <p>Start tracking your BMI to see your health journey here</p>
+                            <a href="/calculator" class="btn btn-primary">
+                                <i class="fas fa-calculator"></i> Calculate Now
+                            </a>
+                        </div>
+                        <% } %>
+    </div>
+    <script>
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const recordId = btn.dataset.id;
+
+      if (!confirm('Delete this BMI record?')) return;
+
+      try {
+        const response = await fetch(`/history/${recordId}`, {
+          method: 'DELETE'
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          btn.closest('.record-card').remove();
+        } else {
+          alert('Failed to delete record');
+        }
+      } catch (err) {
+        alert('Something went wrong');
+      }
+    });
+  });
+</script>
+
+
+    <%- include('partials/footer') %>

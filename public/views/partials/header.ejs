@@ -1,17 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>BMI Calculator</title>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/b3425f7943.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<header>
-    <h1>BMI Calculator</h1>
-    <br>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-    </nav>
-</header>
-<main>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <i class="fas fa-heartbeat"></i> BMI Tracker
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+        <% if (user) { %>
+          <li><a href="/calculator"><i class="fas fa-calculator"></i> Calculator</a></li>
+          <li><a href="/history"><i class="fas fa-history"></i> History</a></li>
+        <% } %>
+        <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        
+        <% if (user) { %>
+          <li class="user-info">
+            <span class="user-name"><i class="fas fa-user"></i> <%= user.name %></span>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+          </li>
+        <% } else { %>
+          <li><a href="/login" class="btn btn-secondary">Login</a></li>
+          <li><a href="/register" class="btn btn-primary">Register</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>

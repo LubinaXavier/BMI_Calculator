@@ -1,16 +1,104 @@
-<%- include("partials/header") %>
+<%- include('partials/header') %>
 
-<div class="card">
-    <h1>Calculate Your BMI</h1>
-    <br><br>
+<style>
+  
+ 
+</style>
 
-    <input type="number" id="height" placeholder="Height (cm)">
-    <input type="number" id="weight" placeholder="Weight (kg)">
-    <button onclick="calculateBMI()">Calculate</button>
-
-    <div id="result"></div>
+<div class="hero">
+  <h1><i class="fas fa-heartbeat"></i> Welcome to BMI Tracker</h1>
+  <p>Your personal health companion for tracking and managing your Body Mass Index</p>
+  <div class="hero-buttons">
+    <% if (user) { %>
+      <a href="/calculator" class="hero-btn hero-btn-primary">
+        <i class="fas fa-calculator"></i> Calculate Now
+      </a>
+      <a href="/history" class="hero-btn hero-btn-secondary">
+        <i class="fas fa-history"></i> View History
+      </a>
+    <% } else { %>
+      <a href="/register" class="hero-btn hero-btn-primary">
+        <i class="fas fa-user-plus"></i> Get Started
+      </a>
+      <a href="/about" class="hero-btn hero-btn-secondary">
+        <i class="fas fa-info-circle"></i> Learn More
+      </a>
+    <% } %>
+  </div>
 </div>
 
-<script src="/js/bmi.js"></script>
+<div class="container">
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-calculator"></i>
+      </div>
+      <h3>Accurate Calculations</h3>
+      <p>Get precise BMI calculations based on your height and weight with instant results and health insights.</p>
+    </div>
 
-<%- include("partials/footer") %>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-history"></i>
+      </div>
+      <h3>Track Progress</h3>
+      <p>Monitor your BMI history over time and visualize your health journey with detailed records.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <h3>Health Analytics</h3>
+      <p>View comprehensive statistics and trends to understand your health patterns better.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-lightbulb"></i>
+      </div>
+      <h3>Personalized Tips</h3>
+      <p>Receive customized health recommendations based on your BMI category and goals.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <h3>Secure & Private</h3>
+      <p>Your health data is encrypted and stored securely with industry-standard protection.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <h3>Mobile Friendly</h3>
+      <p>Access your health data anytime, anywhere with our responsive design.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">Why Track Your BMI?</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h2><i class="fas fa-heartbeat"></i></h2>
+        <p>Monitor Health Status</p>
+      </div>
+      <div class="stat-item">
+        <h2><i class="fas fa-bullseye"></i></h2>
+        <p>Set Fitness Goals</p>
+      </div>
+      <div class="stat-item">
+        <h2><i class="fas fa-chart-bar"></i></h2>
+        <p>Track Progress</p>
+      </div>
+      <div class="stat-item">
+        <h2><i class="fas fa-clipboard-check"></i></h2>
+        <p>Make Informed Decisions</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

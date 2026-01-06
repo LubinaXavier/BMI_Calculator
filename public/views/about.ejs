@@ -1,18 +1,31 @@
-<%- include("partials/header") %>
+<%- include('partials/header') %>
 
-<div class="card">
-    <h1>About BMI</h1>
-    <br><br>
+
+<div class="container">
+  <div class="about-hero">
+    <h1><i class="fas fa-info-circle"></i> About BMI Tracker</h1>
     <p>
-        Body Mass Index (BMI) is a simple calculation used to assess whether a person has a healthy body weight for their height.
+      BMI Tracker is your comprehensive health companion designed to help you monitor and manage 
+      your Body Mass Index effectively. We provide accurate calculations, detailed insights, and 
+      personalized recommendations to support your health journey.
     </p>
-    <br>
-     <p>Underweight: BMI &lt; 18.5</p>
-     <p>Normal: 18.5 – 24.9</p>
-     <p>Overweight: 25 – 29.9</p>
-     <p>Obese: 30 and above</p>
-  
+  </div>
 
+  <div class="info-section">
+    <h2><i class="fas fa-question-circle"></i> What is BMI?</h2>
+    <p>
+      Body Mass Index (BMI) is a simple calculation using a person's height and weight. 
+      The formula is BMI = kg/m² where kg is a person's weight in kilograms and m² is their height 
+      in meters squared. A high BMI can indicate high body fatness.
+    </p>
+    <p>
+      BMI is an inexpensive and easy screening method for weight category - underweight, healthy weight, 
+      overweight, and obesity. However, BMI does not measure body fat directly and should not be used 
+      as a diagnostic tool. It's one of several tools used to assess health status.
+    </p>
+    <img src="/table.png" alt="BMI Table" class="about-img">
+
+  </div>
 </div>
 
-<%- include("partials/footer") %>
+<%- include('partials/footer') %>

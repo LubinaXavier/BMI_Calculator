@@ -1,14 +1,143 @@
-<%- include("partials/header") %>
+<%- include('partials/header') %>
 
-<div class="card">
-    <h2>Contact Us</h2>
+<style>
 
-    <input type="text" placeholder="Your Name">
-    <input type="email" placeholder="Your Email">
-    <textarea placeholder="Your Message"></textarea>
-    <button>Send</button>
-    <br>
+</style>
+
+<div class="container contact-container">
+  <div class="contact-header">
+    <h1><i class="fas fa-envelope"></i> Get In Touch</h1>
+    <p>Have questions or feedback? We'd love to hear from you!</p>
+  </div>
+
+  <div class="contact-content">
+    <div class="contact-form">
+      <h2>Send us a Message</h2>
+      
+      <div id="alert" class="alert"></div>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">
+            <i class="fas fa-user"></i> Full Name
+          </label>
+          <input type="text" id="name" name="name" required placeholder="Lubina">
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            <i class="fas fa-envelope"></i> Email Address
+          </label>
+          <input type="email" id="email" name="email" required placeholder="lubina@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            <i class="fas fa-comment"></i> Message
+          </label>
+          <textarea id="message" name="message" required placeholder="Tell us what's on your mind..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane"></i> Send Message
+        </button>
+      </form>
+    </div>
+
+    <div class="contact-info">
+      <h2>Contact Information</h2>
+      
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="info-content">
+          <h3>Address</h3>
+          <p>123 Health Street<br>Wellness City, WC 12345</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div class="info-content">
+          <h3>Phone</h3>
+          <p>+91 8438093841</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="info-content">
+          <h3>Email</h3>
+          <p>support@bmitracker.com</p>
+        </div>
+      </div>
+
+
+      <h3 style="color: #333; margin-top: 2rem; margin-bottom: 1rem;">Follow Us</h3>
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%- include("partials/footer") %>
+<script>
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    message: document.getElementById('message').value
+  };
 
+  const alertDiv = document.getElementById('alert');
+  
+  try {
+    const response = await fetch('/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    
+    if (response.ok) {
+      alertDiv.className = 'alert alert-success';
+      alertDiv.style.display = 'block';
+      alertDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
+      document.getElementById('contactForm').reset();
+    } else {
+      alertDiv.className = 'alert alert-error';
+      alertDiv.style.display = 'block';
+      alertDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + (data.error || 'Failed to send message');
+    }
+
+    setTimeout(() => {
+      alertDiv.style.display = 'none';
+    }, 5000);
+  } catch (error) {
+    alertDiv.className = 'alert alert-error';
+    alertDiv.style.display = 'block';
+    alertDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.';
+  }
+});
+</script>
+
+<%- include('partials/footer') %>
